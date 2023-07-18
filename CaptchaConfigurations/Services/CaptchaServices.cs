@@ -31,9 +31,9 @@ namespace CaptchaConfigurations.Services
 
         public Task<Bitmap> CreateImageAsync(string randomString)
         {
-            Bitmap secImage = new Bitmap(width: 50, height: 50);
+            Bitmap secImage = new Bitmap(width: 60, height: 60);
             Graphics graphIma = Graphics.FromImage(secImage);
-            graphIma.DrawString(randomString, new Font("arial", 12, FontStyle.Strikeout), SystemBrushes.WindowText, new PointF());
+            graphIma.DrawString(randomString, new Font("arial", 10, FontStyle.Strikeout), SystemBrushes.WindowText, new PointF());
             return Task.FromResult(secImage);   
         }
 

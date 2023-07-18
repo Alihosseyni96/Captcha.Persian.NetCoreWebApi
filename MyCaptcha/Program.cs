@@ -1,4 +1,6 @@
+using CaptchaConfigurations.ActionFilter;
 using CaptchaConfigurations.Services;
+using CaptchaConfigurations.ExtensionMethod;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddScoped<CaptchaServices>();
-builder.Services.AddScoped<ICaptchaServices, CaptchaConfigurations.Services.CaptchaServices>();
-builder.Services.AddScoped<Random>();
-builder.Services.AddHttpContextAccessor();
-
+builder.Services.UseCaptcha();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
