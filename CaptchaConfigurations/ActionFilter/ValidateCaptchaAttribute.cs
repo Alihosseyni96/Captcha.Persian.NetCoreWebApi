@@ -25,7 +25,6 @@ namespace CaptchaConfigurations.ActionFilter
         {
             var inputText = string.Empty;
 
-
             switch (StaticParams.CaptchaValueSendType)
             {
                 case CaptchaValueSendType.InHeader:
@@ -33,6 +32,9 @@ namespace CaptchaConfigurations.ActionFilter
                     break;
                 case CaptchaValueSendType.ApplicationJson:
                     inputText = await ApplicationJson(context);
+                    break;
+                case CaptchaValueSendType.FormDataMethod:
+                    inputText = await FormData(context);
                     break;
             }
 
@@ -77,6 +79,9 @@ namespace CaptchaConfigurations.ActionFilter
 
         public async Task<string> FormData(ActionExecutingContext context)
         {
+            var form = context.HttpContext?.Request?.Form ?? throw new InvalidOperationException("`httpContext.Request.Form` is null.");
+            var inputText = (string)form["CaptchaValue"];
+            return inputText;
 
         }
 
