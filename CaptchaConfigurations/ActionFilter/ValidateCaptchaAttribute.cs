@@ -1,4 +1,5 @@
-﻿using CaptchaConfigurations.Services;
+﻿using CaptchaConfigurations.CaptchaOptionsDTO;
+using CaptchaConfigurations.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -15,6 +16,9 @@ namespace CaptchaConfigurations.ActionFilter
     public class ValidateCaptchaAttribute : ActionFilterAttribute
     {
 
+        public ValidateCaptchaAttribute( )
+        {
+        }
 
         public override async void OnActionExecuting(ActionExecutingContext context)
         {

@@ -1,4 +1,5 @@
 ﻿using CaptchaConfigurations.ActionFilter;
+using CaptchaConfigurations.CaptchaOptionsDTO;
 using CaptchaConfigurations.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -11,12 +12,16 @@ namespace CaptchaConfigurations.ExtensionMethod
 {
     public static class CaptchaDependancy
     {
-        public static void UseCaptcha(this IServiceCollection services)
+        public static void UseCaptcha(this IServiceCollection services, CaptchaOptions options)
         {
-            services.AddScoped<Random>();
-            services.AddScoped<ICaptchaServices, CaptchaConfigurations.Services.CaptchaServices>();
+
+            services.AddScoped<ICaptchaServices>(x => ActivatorUtilities.CreateInstance<CaptchaServices>(x, options));
             services.AddHttpContextAccessor();
             services.AddScoped<ValidateCaptchaAttribute>();
+            services.AddScoped<ValidateCaptchaAttribute>(x => ActivatorUtilities.CreateInstance<ValidateCaptchaAttribute>(x, options));
+            services.AddScoped<CaptchaOptions>();
+
+
         }
     }
 }
