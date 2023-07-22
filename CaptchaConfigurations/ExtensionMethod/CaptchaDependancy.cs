@@ -26,6 +26,7 @@ namespace CaptchaConfigurations.ExtensionMethod
             services.AddScoped<CaptchaOptions>();
 
 
+
         }
     }
 }

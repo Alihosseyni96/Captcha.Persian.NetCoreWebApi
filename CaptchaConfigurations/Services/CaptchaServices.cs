@@ -28,14 +28,14 @@ namespace CaptchaConfigurations.Services
         }
 
 
-        private async Task<byte[]> ConvertImageToByteArrayAsync(Bitmap bitmap)
+        public async Task<byte[]> ConvertImageToByteArrayAsync(Bitmap bitmap)
         {
             ImageConverter converter = new ImageConverter();
             var imageAsByte = (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
             return imageAsByte;
         }
 
-        private Task<Bitmap> CreateImageAsync(string randomString)
+        public Task<Bitmap> CreateImageAsync(string randomString)
         {
             Bitmap secImage = new Bitmap(width: 60, height: 60);
             Graphics graphIma = Graphics.FromImage(secImage);
@@ -43,7 +43,7 @@ namespace CaptchaConfigurations.Services
             return Task.FromResult(secImage);
         }
 
-        private Task<string> CreateRandomStringAsync()
+        public Task<string> CreateRandomStringAsync()
         {
             string captchaFormat = string.Empty;
             int captchaFormatCount = 36;
@@ -79,7 +79,7 @@ namespace CaptchaConfigurations.Services
         }
 
 
-        internal Task<string> HashString(string text)
+        public Task<string> HashString(string text)
         {
             string resultAsHash = string.Empty;
             using (SHA256 sha256 = SHA256.Create())
@@ -90,7 +90,7 @@ namespace CaptchaConfigurations.Services
             return Task.FromResult(resultAsHash);
         }
 
-        internal async Task SetOrReSetCoockieAsync(string key, string value)
+        public async Task SetOrReSetCoockieAsync(string key, string value)
         {
             string? cookie = _httpContextAccessot.HttpContext.Request.Cookies[key];
             if (!string.IsNullOrEmpty(cookie))
@@ -100,7 +100,7 @@ namespace CaptchaConfigurations.Services
             _httpContextAccessot.HttpContext.Response.Cookies.Append(key, value);
         }
 
-        internal Task RemoveCoockieAsync()
+        public Task RemoveCoockieAsync()
         {
             string? cookie = _httpContextAccessot.HttpContext.Request.Cookies[CookieKey];
             if (!string.IsNullOrEmpty(cookie))
