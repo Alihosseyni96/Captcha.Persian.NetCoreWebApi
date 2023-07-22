@@ -14,11 +14,15 @@ namespace CaptchaConfigurations.ExtensionMethod
     {
         public static void UseCaptcha(this IServiceCollection services, CaptchaOptions options)
         {
+            StaticParams.CaptchaValueSendType = options.CaptchaValueSendType;
+            StaticParams.CaptchaType = options.CaptchaType;
+            StaticParams.CaptchaCharacter = options.CaptchaCharacter;
+            StaticParams.FontSize = options.FontSize;
+            StaticParams.FontStyle = options.FontStyle;
 
             services.AddScoped<ICaptchaServices>(x => ActivatorUtilities.CreateInstance<CaptchaServices>(x, options));
             services.AddHttpContextAccessor();
             services.AddScoped<ValidateCaptchaAttribute>();
-            services.AddScoped<ValidateCaptchaAttribute>(x => ActivatorUtilities.CreateInstance<ValidateCaptchaAttribute>(x, options));
             services.AddScoped<CaptchaOptions>();
 
 

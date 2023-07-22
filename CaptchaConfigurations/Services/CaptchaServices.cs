@@ -27,6 +27,7 @@ namespace CaptchaConfigurations.Services
 
         }
 
+
         public async Task<byte[]> ConvertImageToByteArrayAsync(Bitmap bitmap)
         {
             ImageConverter converter = new ImageConverter();
@@ -38,7 +39,7 @@ namespace CaptchaConfigurations.Services
         {
             Bitmap secImage = new Bitmap(width: 60, height: 60);
             Graphics graphIma = Graphics.FromImage(secImage);
-            graphIma.DrawString(randomString, new Font("arial", _options.FontSize.Value, _options.FontStyle.Value), SystemBrushes.WindowText, new PointF());
+            graphIma.DrawString(randomString, new Font("arial", StaticParams.FontSize.Value, StaticParams.FontStyle.Value), SystemBrushes.WindowText, new PointF());
             return Task.FromResult(secImage);
         }
 
@@ -49,7 +50,7 @@ namespace CaptchaConfigurations.Services
             string res = "";
 
 
-            switch (_options.CaptchaType)
+            switch (StaticParams.CaptchaType)
             {
                 case CaptchaType.mixed:
                     captchaFormat = "QWERTYUIOPASDFGHJKLZXCVBNM0123456789"; // 36
@@ -67,7 +68,7 @@ namespace CaptchaConfigurations.Services
                     break;
             }
 
-            for (int i = 1; i <= _options.CaptchaCharacter; i++)
+            for (int i = 1; i <= StaticParams.CaptchaCharacter; i++)
             {
                 var ABCi = _rnd.Next(1, captchaFormatCount);
                 string strABCi = captchaFormat.Substring(ABCi, 1);

@@ -18,8 +18,10 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.UseCaptcha(new CaptchaConfigurations.CaptchaOptionsDTO.CaptchaOptions()
 {
     FontStyle = System.Drawing.FontStyle.Italic,
-    CaptchaType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaType.Letters,
-    CaptchaCharacter = 5
+    CaptchaType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaType.Numbers,
+    CaptchaCharacter = 5,
+    FontSize = 10,
+    CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.ApplicationJson
 });
 var app = builder.Build();
 
