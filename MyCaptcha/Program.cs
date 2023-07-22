@@ -21,7 +21,7 @@ builder.Services.UseCaptcha(new CaptchaConfigurations.CaptchaOptionsDTO.CaptchaO
     CaptchaType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaType.Numbers,
     CaptchaCharacter = 5,
     FontSize = 10,
-    CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.ApplicationJson
+    CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.InBody
 });
 var app = builder.Build();
 

@@ -26,8 +26,7 @@ namespace CaptchaConfigurations.CaptchaOptionsDTO
     public enum CaptchaValueSendType
     {
         InHeader = 1,
-        ApplicationJson = 2,
-        FormDataMethod = 3
+        InBody = 2,
     }
 
 

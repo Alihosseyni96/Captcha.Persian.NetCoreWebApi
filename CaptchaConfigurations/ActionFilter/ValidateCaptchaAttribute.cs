@@ -30,18 +30,15 @@ namespace CaptchaConfigurations.ActionFilter
                 case CaptchaValueSendType.InHeader:
                      inputText = await InHeder(context);
                     break;
-                case CaptchaValueSendType.ApplicationJson:
-                    inputText = await ApplicationJson(context);
-                    break;
-                case CaptchaValueSendType.FormDataMethod:
-                    inputText = await FormData(context);
+                case CaptchaValueSendType.InBody:
+                    inputText = await InBody(context);
                     break;
             }
 
             try
             {
                 var coockieValue = context.HttpContext.Request.Cookies["CaptchaKey"];
-                if (inputText == null || coockieValue == null)
+                if (inputText == string.Empty || coockieValue == string.Empty)
                 {
                     throw new Exception(" مقدار کپچا را به درستی وارد کنید");
                 }
@@ -53,9 +50,11 @@ namespace CaptchaConfigurations.ActionFilter
 
                 if (inputTextAsHash != coockieValue)
                 {
+                    await capatchaServices.RemoveCoockieAsync();
                     throw new Exception("کد کیپچا را صحیح وارد کنید");
-                }
 
+                }
+                await capatchaServices.RemoveCoockieAsync();
             }
             catch (Exception e)
             {
@@ -63,13 +62,13 @@ namespace CaptchaConfigurations.ActionFilter
             }
         }
 
-        public async Task<string> InHeder(ActionExecutingContext context)
+        private async Task<string> InHeder(ActionExecutingContext context)
         {
             var inputText = context.HttpContext.Request?.Headers["CaptchaValue"].ToString();
             return inputText;   
 
         }
-        public async Task<string> ApplicationJson(ActionExecutingContext context)
+        private async Task<string> InBody(ActionExecutingContext context)
         {
             var src = context.ActionArguments.First().Value;
             var inputText =  src.GetType()?.GetProperty("CaptchaValue")?.GetValue(src, null)?.ToString();
@@ -77,13 +76,6 @@ namespace CaptchaConfigurations.ActionFilter
 
         }
 
-        public async Task<string> FormData(ActionExecutingContext context)
-        {
-            var form = context.HttpContext?.Request?.Form ?? throw new InvalidOperationException("`httpContext.Request.Form` is null.");
-            var inputText = (string)form["CaptchaValue"];
-            return inputText;
-
-        }
 
 
     }

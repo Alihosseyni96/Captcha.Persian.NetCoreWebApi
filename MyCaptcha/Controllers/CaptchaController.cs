@@ -34,9 +34,13 @@ namespace MyCaptcha.Controllers
 
         [HttpPost]
         [ValidateCaptcha]
-        public async Task<string> Signin([FromBody] SigninDto signin)
+        public async Task<string> SigninApplicationJson([FromBody] SigninDto signin)
         {
             return "Hello World";
         }
+
+
+
+
     }
 }

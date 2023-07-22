@@ -10,11 +10,12 @@ namespace CaptchaConfigurations.Services
 {
     public interface ICaptchaServices
     {
-        Task<string> CreateRandomStringAsync();
+         Task<string> CreateRandomStringAsync();
         Task<Bitmap> CreateImageAsync(string randomString);
         Task<string> HashString(string text);
         Task SetOrReSetCoockieAsync(string key, string value);
         Task<byte[]> ConvertImageToByteArrayAsync(Bitmap bitmap);
+        Task RemoveCoockieAsync();
 
         //To Register in Container
         Task<FileContentResult> GetCaptcha();
