@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CaptchaConfigurations\CaptchaConfigurations.csproj" />
+    <ProjectReference Include="..\CaptchaConfigurations\Captcha.csproj" />
   </ItemGroup>
 
 </Project>

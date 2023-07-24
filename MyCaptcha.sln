@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCaptcha", "MyCaptcha\MyCaptcha.csproj", "{2F668123-9C91-4FB2-ADA1-675BC60C7982}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptchaConfigurations", "CaptchaConfigurations\CaptchaConfigurations.csproj", "{41279509-8ABF-4873-8376-3E78F402D354}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Captcha", "CaptchaConfigurations\Captcha.csproj", "{41279509-8ABF-4873-8376-3E78F402D354}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
