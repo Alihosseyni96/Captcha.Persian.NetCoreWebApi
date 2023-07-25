@@ -10,7 +10,6 @@ namespace MyCaptcha.Controllers
     [ApiController]
     public class CaptchaController : ControllerBase
     {
-        //private readonly CaptchaServices _captchaServices;
         private readonly ICaptchaServices _captchaServices;
 
         public CaptchaController(ICaptchaServices captchaServices)
@@ -18,11 +17,6 @@ namespace MyCaptcha.Controllers
             _captchaServices = captchaServices;
         }
 
-        //[HttpGet]
-        //public async Task<FileContentResult> GetCaptcha()
-        //{
-        //    return await _captchaServices.GetCaptcha();
-        //}
 
 
         [HttpGet]
@@ -30,7 +24,6 @@ namespace MyCaptcha.Controllers
         {
             return await _captchaServices.GetCaptcha();
         }
-        //To Do Write a MiddleWare AndWrite A Service To Validate Captcha Input Text And CaptchaToken In Coockie
 
         [HttpPost]
         [ValidateCaptcha]

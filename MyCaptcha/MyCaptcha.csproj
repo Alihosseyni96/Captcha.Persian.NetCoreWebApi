@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CaptchaImageFolder\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CaptchaConfigurations\Captcha.csproj" />
   </ItemGroup>
 

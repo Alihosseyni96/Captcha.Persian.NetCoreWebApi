@@ -2,6 +2,7 @@ using CaptchaConfigurations.ActionFilter;
 using CaptchaConfigurations.Services;
 using CaptchaConfigurations.ExtensionMethod;
 using MyCaptcha.Attribute;
+using SixLabors.Fonts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +18,11 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.UseCaptcha(new CaptchaConfigurations.CaptchaOptionsDTO.CaptchaOptions()
 {
-    FontStyle = System.Drawing.FontStyle.Italic,
-    CaptchaType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaType.Numbers,
-    CaptchaCharacter = 5,
-    FontSize = 10,
-    CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.InBody
+    MaxRotationDegrees = 70,
+    CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.InHeader,
+    CaptchaCharacter = 4,
+    FontStyle = FontStyle.Italic,
+    FontFamilies = new string[] {"Arial"}
 });
 var app = builder.Build();
 
