@@ -14,4 +14,9 @@ namespace MyCaptcha.CaptchaDto
         public string Password { get; set; }
         public string? CaptchaValue { get; set; }
     }
+
+    public class CaptchaInputDto
+    {
+        public string CaptchaValue { get; set; }
+    }
 }

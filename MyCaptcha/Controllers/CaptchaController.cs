@@ -32,6 +32,13 @@ namespace MyCaptcha.Controllers
             return "Hello World";
         }
 
+        [HttpPost]
+        [ValidateCaptcha]
+        public async Task<string> SignInPostman([FromBody] CaptchaInputDto input)
+        {
+            return "Hello Postman";
+        }
+
 
 
 
