@@ -54,6 +54,15 @@ namespace CaptchaConfigurations.ActionFilter
                     throw new Exception("کد کیپچا را صحیح وارد کنید");
 
                 }
+
+                var checkCacheCoockie = await capatchaServices.CheckCoockie(coockieValue);
+                if (checkCacheCoockie is false)
+                {
+                    await capatchaServices.RemoveCoockieAsync();
+                    throw new Exception("کد کیپچا را صحیح وارد کنید");
+                }
+
+                await capatchaServices.DeleteCoockieFromCache(coockieValue);
                 await capatchaServices.RemoveCoockieAsync();
             }
             catch (Exception e)

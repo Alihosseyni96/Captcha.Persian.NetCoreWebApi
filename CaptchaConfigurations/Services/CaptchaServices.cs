@@ -1,6 +1,7 @@
 ﻿using CaptchaConfigurations.CaptchaOptionsDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -24,6 +25,7 @@ namespace CaptchaConfigurations.Services
         private readonly HttpContextAccessor _httpContextAccessot;
         private readonly string CookieKey = "CaptchaKey";
         private readonly CaptchaOptions _options;
+        private readonly IMemoryCache _cacheService;
 
         public CaptchaServices(CaptchaOptions options)
         {
@@ -204,6 +206,46 @@ namespace CaptchaConfigurations.Services
             var result = builder.PrependRotationDegrees(rotationDegrees, pointF);
             return result;
         }
+        public Task<bool> SetCoockieInCache(string coockie)
+        {
+            var key = _httpContextAccessot.HttpContext.Connection.RemoteIpAddress.ToString();
+            var res = _cacheService.Set(key, coockie);
+            return Task.FromResult(res is not null ? true : false);
+        }
+
+
+        public Task<bool> DeleteCoockieFromCache(string coockie)
+        {
+            var key = _httpContextAccessot.HttpContext.Connection.RemoteIpAddress.ToString();
+            var cacheData = _cacheService.Get(key);
+            if (cacheData is null)
+            {
+                return Task.FromResult(false);
+
+            }
+            if (cacheData != coockie)
+            {
+                return Task.FromResult(false);
+            }
+            _cacheService.Remove(key);
+            return Task.FromResult(true);
+
+        }
+
+        public Task<bool> CheckCoockie(string coockie)
+        {
+            var key = _httpContextAccessot.HttpContext.Connection.RemoteIpAddress.ToString();
+            var res = _cacheService.Get(key);
+            if(res is  null)
+            {
+                return Task.FromResult(false);  
+            }
+            if (res != coockie)
+            {
+                return Task.FromResult(false);
+            }
+            return Task.FromResult(true);   
+        }
 
 
 
@@ -215,6 +257,7 @@ namespace CaptchaConfigurations.Services
             var hashString = await HashString(randomString);
             await SetOrReSetCoockieAsync(CookieKey, hashString);
             var imageAsbyteArray = await GenerateImage(randomString);
+            await SetCoockieInCache(hashString);
 
             return new FileContentResult(imageAsbyteArray, "image/png");
         }
@@ -228,9 +271,11 @@ namespace CaptchaConfigurations.Services
             }
         }
 
-
-
-
+        //public async Task<bool> SetCoockieInCache(string coockie)
+        //{
+        //    var key = Guid.NewGuid().ToString("N");
+        //     _cacheService.Set(key, coockie);
+        //}
 
     }
 }
