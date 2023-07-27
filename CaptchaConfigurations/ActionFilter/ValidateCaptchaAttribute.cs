@@ -38,7 +38,7 @@ namespace CaptchaConfigurations.ActionFilter
             try
             {
                 var coockieValue = context.HttpContext.Request.Cookies["CaptchaKey"];
-                if (inputText == string.Empty || coockieValue == string.Empty)
+                if (string.IsNullOrEmpty(inputText) || string.IsNullOrEmpty(coockieValue))
                 {
                     throw new Exception(" مقدار کپچا را به درستی وارد کنید");
                 }
@@ -51,18 +51,20 @@ namespace CaptchaConfigurations.ActionFilter
                 if (inputTextAsHash != coockieValue)
                 {
                     await capatchaServices.RemoveCoockieAsync();
+                    await capatchaServices.DeleteCoockieFromCache(inputText, coockieValue);
                     throw new Exception("کد کیپچا را صحیح وارد کنید");
 
                 }
 
-                var checkCacheCoockie = await capatchaServices.CheckCoockie(coockieValue);
+                var checkCacheCoockie = await capatchaServices.CheckCoockie(inputText,coockieValue);
                 if (checkCacheCoockie is false)
                 {
+                    await capatchaServices.DeleteCoockieFromCache(inputText, coockieValue);
                     await capatchaServices.RemoveCoockieAsync();
                     throw new Exception("کد کیپچا را صحیح وارد کنید");
                 }
 
-                await capatchaServices.DeleteCoockieFromCache(coockieValue);
+                await capatchaServices.DeleteCoockieFromCache(inputText,coockieValue);
                 await capatchaServices.RemoveCoockieAsync();
             }
             catch (Exception e)

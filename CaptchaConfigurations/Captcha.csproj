@@ -6,14 +6,14 @@
     <Nullable>enable</Nullable>
     <Title>Captcha.Persian</Title>
     <RepositoryUrl>https://github.com/Alihosseyni96/Captcha.Persian.NetCoreWebApi</RepositoryUrl>
-    <PackageIcon>images.png</PackageIcon>
+    <!--<PackageIcon>images.png</PackageIcon>-->
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>Captcha-Self Generated Captcha - Persian Captcha</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
     <Description>This is a Self Generated and Self Validate Captcha.
 This Package will help ypu to Stablish Captcha Very Easily In Your DotNet Project</Description>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
     <Product>Pourya.hosseini</Product>
     <Version>1.0.1</Version>
     <PackageId></PackageId>
@@ -26,6 +26,7 @@ This Package will help ypu to Stablish Captcha Very Easily In Your DotNet Projec
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>

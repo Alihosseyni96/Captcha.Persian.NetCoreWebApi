@@ -16,9 +16,9 @@ namespace CaptchaConfigurations.Services
         Task SetOrReSetCoockieAsync(string key, string value);
         Task<byte[]> ConvertImageToByteArrayAsync(Bitmap bitmap);
         Task RemoveCoockieAsync();
-        Task<bool> SetCoockieInCache(string coockie);
-        Task <bool> DeleteCoockieFromCache(string coockie);
-        Task<bool> CheckCoockie(string coockie);    
+        Task<bool> SetCoockieInCache(string rndText, string coockie);
+        Task <bool> DeleteCoockieFromCache(string rndText, string coockie);
+        Task<bool> CheckCoockie(string rndText, string coockie);    
 
         //To Register in Container
         Task<FileContentResult> GetCaptcha();

@@ -3,6 +3,7 @@ using CaptchaConfigurations.Services;
 using CaptchaConfigurations.ExtensionMethod;
 using MyCaptcha.Attribute;
 using SixLabors.Fonts;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.UseCaptcha(new CaptchaConfigurations.CaptchaOptionsDTO.CaptchaO
     CaptchaType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaType.Numbers,
     
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +35,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+    ForwardedHeaders.XForwardedProto
+});
 
 app.UseHttpsRedirection();
 

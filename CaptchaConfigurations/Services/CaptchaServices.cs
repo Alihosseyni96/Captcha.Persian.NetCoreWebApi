@@ -17,6 +17,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CaptchaConfigurations.Services
 {
     public class CaptchaServices : ICaptchaServices
@@ -27,12 +28,12 @@ namespace CaptchaConfigurations.Services
         private readonly CaptchaOptions _options;
         private readonly IMemoryCache _cacheService;
 
-        public CaptchaServices(CaptchaOptions options)
+        public CaptchaServices(CaptchaOptions options, IMemoryCache? cacheService = null )
         {
             _rnd = new Random();
             _httpContextAccessot = new HttpContextAccessor();
             _options = options;
-
+            _cacheService = cacheService;
         }
 
 
@@ -206,24 +207,24 @@ namespace CaptchaConfigurations.Services
             var result = builder.PrependRotationDegrees(rotationDegrees, pointF);
             return result;
         }
-        public Task<bool> SetCoockieInCache(string coockie)
+        public Task<bool> SetCoockieInCache(string rndText , string coockie)
         {
-            var key = _httpContextAccessot.HttpContext.Connection.RemoteIpAddress.ToString();
-            var res = _cacheService.Set(key, coockie);
-            return Task.FromResult(res is not null ? true : false);
+            var key = $"Key{rndText}";
+            _cacheService.Set(key, coockie);
+            return Task.FromResult(true);
         }
 
 
-        public Task<bool> DeleteCoockieFromCache(string coockie)
+        public Task<bool> DeleteCoockieFromCache(string rndText, string coockie)
         {
-            var key = _httpContextAccessot.HttpContext.Connection.RemoteIpAddress.ToString();
+            var key = $"Key{rndText}";
             var cacheData = _cacheService.Get(key);
             if (cacheData is null)
             {
                 return Task.FromResult(false);
 
             }
-            if (cacheData != coockie)
+            if (cacheData.ToString() != coockie)
             {
                 return Task.FromResult(false);
             }
@@ -232,15 +233,15 @@ namespace CaptchaConfigurations.Services
 
         }
 
-        public Task<bool> CheckCoockie(string coockie)
+        public Task<bool> CheckCoockie(string rndText, string coockie)
         {
-            var key = _httpContextAccessot.HttpContext.Connection.RemoteIpAddress.ToString();
+            var key = $"Key{rndText}";
             var res = _cacheService.Get(key);
             if(res is  null)
             {
                 return Task.FromResult(false);  
             }
-            if (res != coockie)
+            if (res.ToString() != coockie)
             {
                 return Task.FromResult(false);
             }
@@ -257,7 +258,7 @@ namespace CaptchaConfigurations.Services
             var hashString = await HashString(randomString);
             await SetOrReSetCoockieAsync(CookieKey, hashString);
             var imageAsbyteArray = await GenerateImage(randomString);
-            await SetCoockieInCache(hashString);
+            await SetCoockieInCache( randomString, hashString);
 
             return new FileContentResult(imageAsbyteArray, "image/png");
         }

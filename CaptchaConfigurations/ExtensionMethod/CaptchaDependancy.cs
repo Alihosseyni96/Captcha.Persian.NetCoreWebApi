@@ -38,10 +38,11 @@ namespace CaptchaConfigurations.ExtensionMethod
             StaticParams.MaxRotationDegrees = _options.MaxRotationDegrees;  
             
 
-            services.AddScoped<ICaptchaServices>(x => ActivatorUtilities.CreateInstance<CaptchaServices>(x, _options));
+            services.AddScoped<ICaptchaServices>(x => ActivatorUtilities.CreateInstance<CaptchaServices>(x, _options ));
             services.AddHttpContextAccessor();
             services.AddScoped<ValidateCaptchaAttribute>();
             services.AddScoped<CaptchaOptions>();
+            services.AddMemoryCache();
 
 
 
