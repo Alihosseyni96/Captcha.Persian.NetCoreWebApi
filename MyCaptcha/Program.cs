@@ -19,12 +19,16 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.UseCaptcha(new CaptchaConfigurations.CaptchaOptionsDTO.CaptchaOptions()
 {
-    MaxRotationDegrees = 0,
-    CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.InBody,
-    CaptchaCharacter = 5,
-    FontStyle = FontStyle.Italic,
     CaptchaType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaType.Numbers,
-    
+    CaptchaCharacter = 5,
+    FontStyle = SixLabors.Fonts.FontStyle.Regular,
+    CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.InBody,
+    Height = 40,
+    Width = 100,
+    NoiseRate = 200,
+    DrawLines = 3,
+    FontFamilies = new string[] { "Test" , "Arail" ,  }
+
 });
 
 var app = builder.Build();

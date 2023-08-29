@@ -27,8 +27,10 @@ namespace CaptchaConfigurations.Services
         private readonly string CookieKey = "CaptchaKey";
         private readonly CaptchaOptions _options;
         private readonly IMemoryCache _cacheService;
+        int i = 1;
 
-        public CaptchaServices(CaptchaOptions options, IMemoryCache? cacheService = null )
+
+        public CaptchaServices(CaptchaOptions options, IMemoryCache? cacheService = null)
         {
             _rnd = new Random();
             _httpContextAccessot = new HttpContextAccessor();
@@ -124,7 +126,7 @@ namespace CaptchaConfigurations.Services
         public async Task<byte[]> GenerateImage(string randonString)
         {
             var t1 = _options;
-            
+
 
             byte[] result;
 
@@ -135,8 +137,24 @@ namespace CaptchaConfigurations.Services
                 byte startWith = (byte)random.Next(5, 10);
                 imgText.Mutate(ctx => ctx.BackgroundColor(SixLabors.ImageSharp.Color.Transparent));
 
-                string fontName = StaticParams.FontFamilies[random.Next(0, StaticParams.FontFamilies.Length)];
-                SixLabors.Fonts.Font font = SixLabors.Fonts.SystemFonts.CreateFont(fontName, StaticParams.FontSize, StaticParams.FontStyle);
+
+               string  fontName = StaticParams.FontFamilies[random.Next(0, StaticParams.FontFamilies.Length)];
+                SixLabors.Fonts.Font font;
+                try
+                {
+                    i++;
+                    font = SixLabors.Fonts.SystemFonts.CreateFont(fontName, StaticParams.FontSize, StaticParams.FontStyle);
+                }
+                catch (Exception)
+                {
+                    if (i > StaticParams.FontFamilies.Length)
+                    {
+                        throw new Exception("font family dosent exits");
+                    }
+                    return await GenerateImage(randonString); 
+                }
+
+
                 foreach (char c in randonString)
                 {
                     var location = new SixLabors.ImageSharp.PointF(startWith + position, random.Next(6, 13));
@@ -207,7 +225,7 @@ namespace CaptchaConfigurations.Services
             var result = builder.PrependRotationDegrees(rotationDegrees, pointF);
             return result;
         }
-        public Task<bool> SetCoockieInCache(string rndText , string coockie)
+        public Task<bool> SetCoockieInCache(string rndText, string coockie)
         {
             var key = $"Key{rndText}";
             _cacheService.Set(key, coockie);
@@ -237,15 +255,15 @@ namespace CaptchaConfigurations.Services
         {
             var key = $"Key{rndText}";
             var res = _cacheService.Get(key);
-            if(res is  null)
+            if (res is null)
             {
-                return Task.FromResult(false);  
+                return Task.FromResult(false);
             }
             if (res.ToString() != coockie)
             {
                 return Task.FromResult(false);
             }
-            return Task.FromResult(true);   
+            return Task.FromResult(true);
         }
 
 
@@ -258,7 +276,7 @@ namespace CaptchaConfigurations.Services
             var hashString = await HashString(randomString);
             await SetOrReSetCoockieAsync(CookieKey, hashString);
             var imageAsbyteArray = await GenerateImage(randomString);
-            await SetCoockieInCache( randomString, hashString);
+            await SetCoockieInCache(randomString, hashString);
 
             return new FileContentResult(imageAsbyteArray, "image/png");
         }
