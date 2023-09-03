@@ -12,11 +12,11 @@
     <RepositoryType>GitHub</RepositoryType>
     <Description>This is a Self Generated and Self Validate Captcha.
 This Package will help ypu to Stablish Captcha Very Easily In Your DotNet Project</Description>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
     <Product>Pourya.hosseini</Product>
-    <Version>1.0.1</Version>
-    <PackageId></PackageId>
+    <Version>1.0.3</Version>
+    <PackageId> Moneyon.Common.NewCaptcha</PackageId>
     <Authors>Pourya.Hosseinei</Authors>
     <Company>Pourya.Hosseinei</Company>
     <AssemblyName>Captcha</AssemblyName>

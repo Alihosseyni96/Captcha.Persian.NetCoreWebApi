@@ -22,7 +22,9 @@ namespace MyCaptcha.Controllers
         [HttpGet]
         public async Task<FileContentResult> GetCaptchaNew()
         {
-            return await _captchaServices.GetCaptcha();
+            var res =  await _captchaServices.GetCaptcha();
+            var error = HttpContext.Response.Body;
+            return res;
         }
 
         [HttpPost]

@@ -27,7 +27,7 @@ namespace CaptchaConfigurations.Services
         private readonly string CookieKey = "CaptchaKey";
         private readonly CaptchaOptions _options;
         private readonly IMemoryCache _cacheService;
-        int i = 1;
+        int tryFindDont = 0;
 
 
         public CaptchaServices(CaptchaOptions options, IMemoryCache? cacheService = null)
@@ -135,23 +135,24 @@ namespace CaptchaConfigurations.Services
                 float position = 0;
                 Random random = new Random();
                 byte startWith = (byte)random.Next(5, 10);
-                imgText.Mutate(ctx => ctx.BackgroundColor(SixLabors.ImageSharp.Color.Transparent));
+                imgText.Mutate(ctx => ctx.BackgroundColor(SixLabors.ImageSharp.Color.White));
 
 
-               string  fontName = StaticParams.FontFamilies[random.Next(0, StaticParams.FontFamilies.Length)];
+
+                string fontName = StaticParams.FontFamilies[tryFindDont];
                 SixLabors.Fonts.Font font;
                 try
                 {
-                    i++;
+                    tryFindDont++;
                     font = SixLabors.Fonts.SystemFonts.CreateFont(fontName, StaticParams.FontSize, StaticParams.FontStyle);
                 }
-                catch (Exception)
+                catch (Exception  )
                 {
-                    if (i > StaticParams.FontFamilies.Length)
+                    if (tryFindDont > StaticParams.FontFamilies.Length)
                     {
-                        throw new Exception("font family dosent exits");
+                        throw new Exception(message: "fonts are not exists" );
                     }
-                    return await GenerateImage(randonString); 
+                    return await GenerateImage(randonString);
                 }
 
 

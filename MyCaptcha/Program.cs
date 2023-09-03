@@ -21,24 +21,27 @@ builder.Services.UseCaptcha(new CaptchaConfigurations.CaptchaOptionsDTO.CaptchaO
 {
     CaptchaType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaType.Numbers,
     CaptchaCharacter = 5,
-    FontStyle = SixLabors.Fonts.FontStyle.Regular,
+    FontStyle = SixLabors.Fonts.FontStyle.Italic,
     CaptchaValueSendType = CaptchaConfigurations.CaptchaOptionsDTO.CaptchaValueSendType.InBody,
     Height = 40,
     Width = 100,
     NoiseRate = 200,
     DrawLines = 3,
-    FontFamilies = new string[] { "Test" , "Arail" ,  }
+    //FontFamilies = new string[] { "Hack" , "Verdana" },
+    FontFamilies = new string[] { "Test1" , "Test2","Arail", "Verdana" , "Hack" },
+
+    BackgroundColor = new SixLabors.ImageSharp.Color[] { SixLabors.ImageSharp.Color.White }
 
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
@@ -46,7 +49,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders.XForwardedProto
 });
 
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
