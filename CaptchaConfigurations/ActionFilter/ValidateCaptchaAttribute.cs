@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -18,11 +19,12 @@ using System.Threading.Tasks;
 
 namespace CaptchaConfigurations.ActionFilter
 {
-    public class ValidateCaptchaAttribute : ActionFilterAttribute
+    public class ValidateCaptchaAttribute : ActionFilterAttribute , IExceptionFilter
     {
 
         public override async void OnActionExecuting(ActionExecutingContext context)
         {
+
             var inputText = string.Empty;
 
             switch (StaticParams.CaptchaValueSendType)
@@ -40,7 +42,7 @@ namespace CaptchaConfigurations.ActionFilter
                 var coockieValue = context.HttpContext.Request.Cookies["CaptchaKey"];
                 if (string.IsNullOrEmpty(inputText) || string.IsNullOrEmpty(coockieValue))
                 {
-                    throw new Exception(" مقدار کپچا را به درستی وارد کنید");
+                    throw new Exception("کپچا نادرست است");
                 }
 
                 var capatchaServices = context.HttpContext.RequestServices
@@ -52,7 +54,7 @@ namespace CaptchaConfigurations.ActionFilter
                 {
                     await capatchaServices.RemoveCoockieAsync();
                     await capatchaServices.DeleteCoockieFromCache(inputText, coockieValue);
-                    throw new Exception("کد کیپچا را صحیح وارد کنید");
+                    throw new Exception("کپچا نادرست است");
 
                 }
 
@@ -61,17 +63,27 @@ namespace CaptchaConfigurations.ActionFilter
                 {
                     await capatchaServices.DeleteCoockieFromCache(inputText, coockieValue);
                     await capatchaServices.RemoveCoockieAsync();
-                    throw new Exception("کد کیپچا را صحیح وارد کنید");
+                    throw new Exception("کپچا نادرست است");
                 }
 
                 await capatchaServices.DeleteCoockieFromCache(inputText,coockieValue);
                 await capatchaServices.RemoveCoockieAsync();
+
+
             }
             catch (Exception e)
             {
-                context.Result = new BadRequestObjectResult(e.Message);
+                context.Result = new ObjectResult(e) 
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError ,
+                    Value = e.Message,
+                };
+
+
             }
         }
+
+
 
         private async Task<string> InHeder(ActionExecutingContext context)
         {
@@ -87,7 +99,9 @@ namespace CaptchaConfigurations.ActionFilter
 
         }
 
-
-
+        public void OnException(ExceptionContext context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
